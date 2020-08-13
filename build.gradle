@@ -15,8 +15,9 @@ allprojects {
         maven {
             url 'https://maven.google.com/'
         }
-        jcenter {url 'https://dl.bintray.com/android/android-tools'}
-        jcenter {url 'https://firebase.bintray.com/gradle'}
+        maven { url 'https://jitpack.io' }
+//        jcenter {url 'https://dl.bintray.com/android/android-tools'}
+//        jcenter {url 'https://firebase.bintray.com/gradle'}
         jcenter()
     }
 }
@@ -24,6 +25,4 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-repositories {
-    google()
-}
+

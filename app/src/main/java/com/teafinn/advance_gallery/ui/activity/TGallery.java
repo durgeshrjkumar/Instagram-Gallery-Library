@@ -299,13 +299,13 @@ selectMultiple=getIntent().getBooleanExtra("selectMultiple",false);
         if (requestCode == REQUEST_PERMISSION_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //TODO get data when permission is granted
-                
+                loadUI();
             } else {
                 // User refused to grant permission.
             }
         } else if (requestCode == REQUEST_PERMISSION_CAMERA) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-loadUI();
+//loadUI();
             } else {
                 // User refused to grant permission.
                 Toast.makeText(this, "No Camera Permission provided", Toast.LENGTH_SHORT).show();
