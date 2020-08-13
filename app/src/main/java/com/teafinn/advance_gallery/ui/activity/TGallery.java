@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -91,6 +92,10 @@ selectMultiple=getIntent().getBooleanExtra("selectMultiple",false);
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mViewPager.setAdapter(mPagerAdapter);
+        requestPermissionExternalStorage();
+       
+    }
+    public void loadUI(){
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -274,11 +279,17 @@ selectMultiple=getIntent().getBooleanExtra("selectMultiple",false);
      * check external storage and camera permission
      */
     public void requestPermissionExternalStorage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+                    },
                     REQUEST_PERMISSION_EXTERNAL_STORAGE);
-            return;
+
+        }else {
+            loadUI();
         }
     }
 
@@ -288,14 +299,16 @@ selectMultiple=getIntent().getBooleanExtra("selectMultiple",false);
         if (requestCode == REQUEST_PERMISSION_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //TODO get data when permission is granted
+                
             } else {
                 // User refused to grant permission.
             }
         } else if (requestCode == REQUEST_PERMISSION_CAMERA) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+loadUI();
             } else {
                 // User refused to grant permission.
+                Toast.makeText(this, "No Camera Permission provided", Toast.LENGTH_SHORT).show();
             }
         }
     }
